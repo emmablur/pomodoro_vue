@@ -79,7 +79,8 @@ body {
         justify-content: center;
         align-items: center;
         flex-shrink: 0;
-        background-color: #82aaed;
+        //轉的時候讓transparent和中間那顏色的角度改變
+        background: conic-gradient(transparent 45deg, #01dc8c 45deg, #9600ff);
         height: 200px;
         width: 200px;
         border-radius: 50%;
@@ -186,7 +187,7 @@ body {
           right: 0;
           top: -5px;
           height: 5px;
-          background-color: rgb(204, 153, 153);
+          background-color: rgb(177, 119, 119);
         }
       }
       > .todo_list {
@@ -198,6 +199,7 @@ body {
             display: flex;
             > .item_title {
               flex-grow: 1;
+              text-align: left;
             }
           }
           > .item_checker {
@@ -206,6 +208,7 @@ body {
             display: flex;
             > .checker_pomodoro {
               flex-grow: 1;
+              text-align: left;
               > span {
                 display: inline-block;
                 width: 10px;
