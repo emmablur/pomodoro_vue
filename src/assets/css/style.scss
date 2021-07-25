@@ -1,0 +1,249 @@
+﻿html,
+body {
+  background-color: #e2e2f5;
+}
+
+.wrap {
+  display: flex;
+}
+.side_bar {
+  background-color: white;
+  padding: 40px 0;
+  height: 100vh;
+  width: 200px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  > .title {
+    color: #82aaed;
+    text-align: center;
+  }
+  > .profile {
+    width: 200px;
+    height: 200px;
+    background-color: green;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    > img {
+      height: 100px;
+      width: 100px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+  }
+  > .menu {
+    flex-grow: 1;
+    > .menu_item {
+      padding: 20px 15px;
+      cursor: pointer;
+      &:hover {
+        background-color: #01dc8c;
+      }
+    }
+  }
+  > .login {
+    background-color: #c5d7f7;
+    padding: 20px;
+  }
+}
+.main {
+  flex-grow: 1;
+  padding: 20px 30px;
+  > .main_title {
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    > span {
+      font-weight: 600;
+    }
+    > button {
+      border: none;
+      background-color: #82aaed;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+  }
+  > .focus_board {
+    display: flex;
+    margin: 0 0 25px 0;
+    > .timer {
+      background-color: white;
+      flex-basis: 55%;
+      padding: 20px 10px;
+      display: flex;
+      > .clock {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        background-color: #82aaed;
+        height: 200px;
+        width: 200px;
+        border-radius: 50%;
+        > div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          height: 90%;
+          width: 90%;
+
+          font-size: 30px;
+          background-color: white;
+          border-radius: 50%;
+        }
+      }
+      > .current_task_wrap {
+        flex-grow: 1;
+        > .current_task {
+          height: 100%;
+          width: 70%;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          > .task_title {
+            text-align: right;
+            padding: 10px 0;
+          }
+          > .task_pomodoro {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+            span {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              margin: 0 0 0 7px;
+              border-radius: 50%;
+              background-color: black;
+            }
+          }
+          > .task_button {
+            text-align: center;
+            padding: 10px 0;
+            box-shadow: #82aaed 0px 0px 5px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    > .time_record {
+      background-color: white;
+      margin: 0 0 0 3%;
+      padding: 20px 10px;
+      flex-basis: 42%;
+      display: flex;
+      flex-direction: column;
+      > .record_title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        > span {
+          font-weight: 600;
+        }
+        > button {
+          background: none;
+          border: 2px #d8d8d8 solid;
+          border-radius: 3px;
+          color: #d8d8d8;
+          padding: 5px 25px;
+          cursor: pointer;
+        }
+      }
+      > .record_time {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 48px;
+      }
+    }
+  }
+  > .task_board {
+    display: flex;
+    // background-color: rgb(214, 214, 161);
+    position: relative;
+    > .todo_project {
+      width: 250px;
+      margin: 0 15px 0 0;
+      > .todo_title_wrap {
+        position: relative;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: white;
+        &:hover {
+          box-shadow: #82aaed 0px 0px 5px;
+        }
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: -5px;
+          height: 5px;
+          background-color: rgb(204, 153, 153);
+        }
+      }
+      > .todo_list {
+        > .todo_item {
+          background-color: white;
+          margin: 15px 0 0 0;
+          > .item_title_wrap {
+            padding: 10px 20px;
+            display: flex;
+            > .item_title {
+              flex-grow: 1;
+            }
+          }
+          > .item_checker {
+            padding: 10px 20px;
+            border-top: 1px solid rgba(128, 128, 128, 0.445);
+            display: flex;
+            > .checker_pomodoro {
+              flex-grow: 1;
+              > span {
+                display: inline-block;
+                width: 10px;
+                height: 10px;
+                margin: 0 0 0 7px;
+                border-radius: 50%;
+                background-color: rgb(204, 153, 153);
+              }
+            }
+          }
+          &:hover {
+            box-shadow: #82aaed 0px 0px 5px;
+          }
+        }
+      }
+    }
+    > .done_project {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 250px;
+      > .done_title {
+        padding: 10px 20px;
+        background-color: white;
+        &:hover {
+          box-shadow: #82aaed 0px 0px 5px;
+        }
+      }
+      > .done_list {
+        > .done_item {
+          padding: 10px 20px;
+          background-color: white;
+          margin: 15px 0 0 0;
+          &:hover {
+            box-shadow: #82aaed 0px 0px 5px;
+          }
+        }
+      }
+    }
+  }
+}
