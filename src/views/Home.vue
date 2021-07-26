@@ -21,7 +21,7 @@
       </div>
       <div class="task_board">
         <!-- todo project -->
-        <todo-project/>
+        <todo-project v-for="project in projects" :key="project.projectName" :project="project"/>
         <!-- done project -->
         <div class="done_project">
           <div class="done_title">DONE</div>
@@ -30,6 +30,15 @@
             <div class="done_item">Market Research</div>
           </div>
         </div>
+      </div>
+      <div class="project_add_board">
+        <form>
+          <label for="">project name</label>
+          <input type="text" name="" id="">
+          <label for="">color</label>
+          <input type="color" name="" id="">
+          <button>submit</button>
+        </form>
       </div>
     </div>
   </div>
@@ -42,6 +51,39 @@ import todoProject from '@/components/TodoProject.vue';
 
 export default {
   name: 'Home',
+  data() {
+    return {
+      projects: [
+        {
+          projectName: '生活',
+          color: '#01dc8c',
+          tasks: [
+            {
+              name: '擦拭電腦',
+              pomodoro: 1,
+              done: false,
+            },
+            {
+              name: '看282',
+              pomodoro: 2,
+              done: false,
+            },
+          ],
+        },
+        {
+          projectName: '學習',
+          color: '#fc',
+          tasks: [
+            {
+              name: '看書',
+              pomodoro: 2,
+              done: false,
+            },
+          ],
+        },
+      ],
+    };
+  },
   components: {
     sideBar,
     timer,
