@@ -64,6 +64,7 @@ body {
       color: white;
       padding: 10px 15px;
       border-radius: 5px;
+      cursor: pointer;
     }
   }
   > .focus_board {
@@ -120,14 +121,15 @@ body {
               height: 10px;
               margin: 0 0 0 7px;
               border-radius: 50%;
-              background-color: black;
+              background-color: rgba(0, 0, 0, 0.5);
             }
           }
           > .task_button {
             text-align: center;
             padding: 10px 0;
             box-shadow: #82aaed 0px 0px 5px;
-            cursor: pointer;
+            background: none;
+            border: none;
           }
         }
       }
@@ -173,8 +175,6 @@ body {
       margin: 0 15px 0 0;
       > .todo_title_wrap {
         position: relative;
-        display: flex;
-        justify-content: space-between;
         padding: 10px 20px;
         background-color: white;
         &:hover {
@@ -187,7 +187,31 @@ body {
           right: 0;
           top: -5px;
           height: 5px;
-          background-color: rgb(177, 119, 119);
+          // background-color: rgb(177, 119, 119); <-搬到.vue
+        }
+        > .todo_title_name {
+          display: flex;
+          justify-content: space-between;
+        }
+        > .task_add_board {
+          padding: 10px 0;
+          // border-top: solid grey 1px;
+          label {
+            color: grey;
+            font-size: 12px;
+          }
+          input {
+            width: 100%;
+            box-sizing: border-box;
+          }
+          button {
+            display: block;
+            margin: 10px 0 0 auto;
+            width: 50px;
+            text-align: center;
+            background: grey;
+            border: none;
+          }
         }
       }
       > .todo_list {
@@ -215,7 +239,8 @@ body {
                 height: 10px;
                 margin: 0 0 0 7px;
                 border-radius: 50%;
-                background-color: rgb(204, 153, 153);
+                background-color: rgba(0, 0, 0, 0.5)
+                //<- 移到todoItem template
               }
             }
           }
@@ -249,4 +274,34 @@ body {
       }
     }
   }
+  > .project_add_board {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    form {
+      width: 400px;
+      height: 300px;
+      background-color: #82aaed;
+      padding: 30px 20px;
+      border-radius: 20px;
+      .project_add_board_title {
+        text-align: center;
+        font-size: 24px;
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+.error_message {
+  font-size: 12px;
+  color: rgb(255, 82, 82);
+  display: block;
 }

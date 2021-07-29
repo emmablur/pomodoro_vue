@@ -5,13 +5,16 @@
     </div>
     <div class="current_task_wrap">
       <div class="current_task">
-        <div class="task_title">Front end</div>
+        <div class="task_title" v-text="(currentTask.name)? currentTask.name : '請選擇任務<3'"></div>
         <div class="task_pomodoro">
-          <span></span><span></span><span></span><span></span>
+          <span v-for="n in currentTask.done_pomodoro"
+          :key="n" :style="{'background-color':color}"></span>
+          <span v-for="n in currentTask.pomodoro" :key="n"></span>
         </div>
-        <div class="task_button" @click.prevent="(playing)? pauseTimer() : startTimer()">
+        <button class="task_button" :disabled="!currentTask.name"
+        @click.prevent="(playing)? pauseTimer() : startTimer()" >
           {{(playing)?'PAUSE':'START'}}
-          </div>
+          </button>
       </div>
     </div>
   </div>
@@ -25,7 +28,7 @@ import {
 export default {
   name: 'timer',
   computed: {
-    ...mapState(['playing']),
+    ...mapState(['playing', 'currentTask']),
     ...mapGetters(['time']),
   },
   methods: {

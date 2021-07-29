@@ -1,7 +1,13 @@
 <template>
   <router-view/>
 </template>
-
+<script>
+export default {
+  mounted() { // 初始化資料, 不太確定寫在這好不好
+    this.$store.dispatch('initProjects');
+  },
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
