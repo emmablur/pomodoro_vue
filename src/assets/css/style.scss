@@ -2,7 +2,9 @@
 body {
   background-color: #e2e2f5;
 }
-
+.material-icons {
+  font-size: 1rem;
+}
 .wrap {
   display: flex;
 }
@@ -81,7 +83,7 @@ body {
         align-items: center;
         flex-shrink: 0;
         //轉的時候讓transparent和中間那顏色的角度改變
-        background: conic-gradient(transparent 45deg, #01dc8c 45deg, #9600ff);
+        // background: conic-gradient(transparent 45deg, #01dc8c 45deg, #9600ff);
         height: 200px;
         width: 200px;
         border-radius: 50%;
@@ -239,7 +241,7 @@ body {
                 height: 10px;
                 margin: 0 0 0 7px;
                 border-radius: 50%;
-                background-color: rgba(0, 0, 0, 0.5)
+                background-color: rgba(0, 0, 0, 0.5);
                 //<- 移到todoItem template
               }
             }
@@ -261,14 +263,51 @@ body {
         &:hover {
           box-shadow: #82aaed 0px 0px 5px;
         }
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: -5px;
+          height: 5px;
+          background-color: rgb(122, 122, 122);
+        }
       }
       > .done_list {
         > .done_item {
-          padding: 10px 20px;
           background-color: white;
           margin: 15px 0 0 0;
           &:hover {
             box-shadow: #82aaed 0px 0px 5px;
+          }
+          > .item_title_wrap {
+            padding: 10px 20px;
+            display: flex;
+            > .item_title {
+              flex-grow: 1;
+              text-align: left;
+            }
+            > .item_project span {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              margin: 0 0 0 7px;
+              border-radius: 50%;
+            }
+          }
+          > .item_checker {
+            padding: 10px 20px;
+            border-top: 1px solid rgba(128, 128, 128, 0.445);
+            display: flex;
+            > button {
+              border-radius: 5px;
+              border: none;
+              background-color: #82aaed;
+              color: white;
+              font-weight: 500;
+              box-sizing: border-box;
+              width: 100%;
+            }
           }
         }
       }

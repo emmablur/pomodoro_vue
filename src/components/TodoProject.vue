@@ -49,7 +49,8 @@ export default {
   },
   computed: {
     taskIndex() {
-      return this.project.tasks.map((task) => this.project.tasks.indexOf(task));
+      const activeTask = this.project.tasks.filter((task) => !task.done);
+      return activeTask.map((task) => this.project.tasks.indexOf(task));
     },
   },
   components: {
@@ -60,10 +61,11 @@ export default {
       console.log(values);
       const payload = {
         projectIndex: this.projectIndex,
-        done_pomodoro: 0,
         task: {
           name: values.name,
           pomodoro: parseFloat(values.pomodoro),
+          done_pomodoro: 0,
+          done: false,
         },
       };
       console.log(payload);

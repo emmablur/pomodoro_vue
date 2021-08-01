@@ -27,8 +27,8 @@
         <div class="done_project">
           <div class="done_title">DONE</div>
           <div class="done_list">
-            <div class="done_item">A/B test</div>
-            <div class="done_item">Market Research</div>
+              <done-item v-for="doneTask in doneTasks.slice(0).reverse()"
+               :key="doneTask" :doneTask="doneTask"/>
           </div>
         </div>
       </div>
@@ -56,6 +56,7 @@ import { mapState, mapGetters } from 'vuex';
 import sideBar from '@/components/SideBar.vue';
 import timer from '@/components/Timer.vue';
 import todoProject from '@/components/TodoProject.vue';
+import doneItem from '@/components/DoneItem.vue';
 
 export default {
   name: 'Home',
@@ -69,13 +70,14 @@ export default {
     };
   },
   computed: {
-    ...mapState(['projects']),
+    ...mapState(['projects', 'doneTasks']),
     ...mapGetters(['projectIndex']),
   },
   components: {
     sideBar,
     timer,
     todoProject,
+    doneItem,
   },
   methods: {
     addProject(values, resetForm) {
