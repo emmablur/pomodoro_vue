@@ -29,8 +29,8 @@ export default {
   name: 'timer',
   data() {
     return {
-      work_color: ['#9600ff', '#01dc8c'],
-      break_color: ['#06857a', '#236842'],
+      work_color: ['#FBC2EB', '#82AAED'],
+      break_color: ['#FBED96', '#9BDEC8'],
     };
   },
   computed: {
@@ -51,9 +51,12 @@ export default {
   .timer{
     >.clock{
       background:
-      conic-gradient(v-bind('nowColor[0]') 0deg, v-bind('nowColor[1]') v-bind('clockDeg'),
-      transparent v-bind('clockDeg'), transparent 360deg),
-      #d4d4d4;
+      conic-gradient(
+      transparent 0deg,
+      transparent v-bind('clockDeg'),
+      v-bind('nowColor[0]') v-bind('clockDeg'),
+      v-bind('nowColor[1]') 360deg),
+      #F0F0F0;
     }
   }
 </style>

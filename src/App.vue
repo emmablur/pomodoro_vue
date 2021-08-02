@@ -1,8 +1,18 @@
 <template>
-  <router-view/>
+  <div class="wrap">
+    <side-bar/>
+      <div class="main">
+        <router-view/>
+      </div>
+  </div>
 </template>
 <script>
+import sideBar from '@/components/SideBar.vue';
+
 export default {
+  components: {
+    sideBar,
+  },
   mounted() { // 初始化資料, 不太確定寫在這好不好
     this.$store.dispatch('initProjects');
   },

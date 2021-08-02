@@ -1,6 +1,6 @@
 ﻿html,
 body {
-  background-color: #e2e2f5;
+  background-color: #f8f9fa;
 }
 .material-icons {
   font-size: 1rem;
@@ -16,6 +16,7 @@ body {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  border-radius: 0 10px 10px 0;
   > .title {
     color: #82aaed;
     text-align: center;
@@ -23,7 +24,6 @@ body {
   > .profile {
     width: 200px;
     height: 200px;
-    background-color: green;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -40,9 +40,6 @@ body {
     > .menu_item {
       padding: 20px 15px;
       cursor: pointer;
-      &:hover {
-        background-color: #01dc8c;
-      }
     }
   }
   > .login {
@@ -53,8 +50,12 @@ body {
 .main {
   flex-grow: 1;
   padding: 20px 30px;
+  div {
+    border-radius: 3px;
+  }
   > .main_title {
-    padding: 10px 0;
+    padding: 28px 0;
+    height: 47px;
     display: flex;
     justify-content: space-between;
     > span {
@@ -65,18 +66,20 @@ body {
       background-color: #82aaed;
       color: white;
       padding: 10px 15px;
-      border-radius: 5px;
+      border-radius: 3px;
       cursor: pointer;
     }
   }
   > .focus_board {
     display: flex;
     margin: 0 0 25px 0;
+
     > .timer {
       background-color: white;
       flex-basis: 55%;
       padding: 20px 10px;
       display: flex;
+      box-shadow: 0px 1px 3px #4a4a4a29;
       > .clock {
         display: flex;
         justify-content: center;
@@ -129,9 +132,10 @@ body {
           > .task_button {
             text-align: center;
             padding: 10px 0;
-            box-shadow: #82aaed 0px 0px 5px;
+            box-shadow: 0px 1px 3px #4a4a4a29;
             background: none;
             border: none;
+            border-radius: 3px;
           }
         }
       }
@@ -140,6 +144,7 @@ body {
       background-color: white;
       margin: 0 0 0 3%;
       padding: 20px 10px;
+      box-shadow: 0px 1px 3px #4a4a4a29;
       flex-basis: 42%;
       display: flex;
       flex-direction: column;
@@ -179,9 +184,11 @@ body {
         position: relative;
         padding: 10px 20px;
         background-color: white;
-        &:hover {
-          box-shadow: #82aaed 0px 0px 5px;
-        }
+        border-radius: 0 0 3px 3px;
+        box-shadow: 0px 1px 3px #4a4a4a29;
+        // &:hover {
+        //   box-shadow: #82aaed 0px 0px 5px;
+        // }
         &::after {
           content: "";
           position: absolute;
@@ -189,6 +196,7 @@ body {
           right: 0;
           top: -5px;
           height: 5px;
+          border-radius: 3px 3px 0 0;
           // background-color: rgb(177, 119, 119); <-搬到.vue
         }
         > .todo_title_name {
@@ -220,6 +228,8 @@ body {
         > .todo_item {
           background-color: white;
           margin: 15px 0 0 0;
+          box-shadow: 0px 1px 3px #4a4a4a29;
+          border: 1px solid transparent;
           > .item_title_wrap {
             padding: 10px 20px;
             display: flex;
@@ -247,7 +257,7 @@ body {
             }
           }
           &:hover {
-            box-shadow: #82aaed 0px 0px 5px;
+            border: 1px solid #a6c1ee;
           }
         }
       }
@@ -260,9 +270,11 @@ body {
       > .done_title {
         padding: 10px 20px;
         background-color: white;
-        &:hover {
-          box-shadow: #82aaed 0px 0px 5px;
-        }
+        border-radius: 0 0 3px 3px;
+        box-shadow: 0px 1px 3px #4a4a4a29;
+        // &:hover {
+        //   box-shadow: #82aaed 0px 0px 5px;
+        // }
         &::after {
           content: "";
           position: absolute;
@@ -271,14 +283,17 @@ body {
           top: -5px;
           height: 5px;
           background-color: rgb(122, 122, 122);
+          border-radius: 3px 3px 0 0;
         }
       }
       > .done_list {
         > .done_item {
           background-color: white;
           margin: 15px 0 0 0;
+          box-shadow: 0px 1px 3px #4a4a4a29;
+          border: 1px solid transparent;
           &:hover {
-            box-shadow: #82aaed 0px 0px 5px;
+            border: 1px solid #a6c1ee;
           }
           > .item_title_wrap {
             padding: 10px 20px;
@@ -300,7 +315,7 @@ body {
             border-top: 1px solid rgba(128, 128, 128, 0.445);
             display: flex;
             > button {
-              border-radius: 5px;
+              border-radius: 3px;
               border: none;
               background-color: #82aaed;
               color: white;
@@ -310,6 +325,28 @@ body {
             }
           }
         }
+      }
+    }
+  }
+  > .duration_toggle_wrap {
+    padding: 28px 0;
+    height: 47px;
+    text-align: right;
+    > .duration_toggle {
+      display: inline-flex;
+      align-items: center;
+      > .title {
+        display: inline-block;
+        width: 100px;
+        text-align: center;
+      }
+      > .material-icons {
+        font-size: 30px;
+        cursor: pointer;
+      }
+      > .active {
+        color: #d8d8d8;
+        cursor: not-allowed;
       }
     }
   }
@@ -328,13 +365,258 @@ body {
       height: 300px;
       background-color: #82aaed;
       padding: 30px 20px;
-      border-radius: 20px;
+      border-radius: 3px;
       .project_add_board_title {
         text-align: center;
         font-size: 24px;
       }
       input {
         width: 100%;
+      }
+    }
+  }
+  > .analytics_board {
+    display: flex;
+    margin: 0 0 25px 0;
+    > .day_graph {
+      background-color: white;
+      flex-basis: 55%;
+      box-sizing: border-box;
+      padding: 40px 44px;
+      box-shadow: 0px 1px 3px #4a4a4a29;
+      > .graph_item {
+        display: flex;
+        + .graph_item {
+          margin: 30px 0 0 0;
+        }
+        > .graph_item_name {
+          box-sizing: border-box;
+          flex-basis: 30%;
+          padding: 0 3% 0 0;
+        }
+        > .graph_item_line_wrap {
+          flex-basis: 40%;
+          > .graph_item_line {
+            position: relative;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100%;
+            width: 80%;
+            > span {
+              display: inline-block;
+              width: 100%;
+              background: transparent
+                linear-gradient(270deg, #fbc2eb 0%, #fbc2eb1a 100%) 0% 0%
+                no-repeat padding-box;
+              border-radius: 10px;
+              height: 4px;
+            }
+            > .graph_item_time {
+              position: absolute;
+              top: 0;
+              bottom: 0;
+              right: 0;
+              transform: translate(calc(100% + 10px));
+              display: flex;
+              align-items: center;
+            }
+          }
+        }
+      }
+    }
+    > .day_summary {
+      background-color: white;
+      margin: 0 0 0 3%;
+      padding: 20px 30px;
+      flex-basis: 42%;
+      box-sizing: border-box;
+      box-shadow: 0px 1px 3px #4a4a4a29;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      height: 200px;
+      > .summary_item {
+        display: flex;
+        text-align: center;
+        .title {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-basis: 30%;
+          font-size: 16px;
+          letter-spacing: 0.64px;
+          color: #b6b6b7;
+        }
+        .content {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-basis: 70%;
+          font-size: 36px;
+          letter-spacing: 0px;
+          color: #4a4a4a;
+        }
+      }
+    }
+    > .week_graph_wrap {
+      background-color: white;
+      flex-basis: 65%;
+      box-sizing: border-box;
+      padding: 40px 44px;
+      box-shadow: 0px 1px 3px #4a4a4a29;
+      height: 400px;
+      > .week_graph {
+        height: 100%;
+        position: relative;
+        > .bar_item_wrap {
+          height: 100%;
+          padding: 0 30px 0 60px;
+          display: flex;
+          width: 100%;
+          box-sizing: border-box;
+          justify-content: space-between;
+          > .bar_item {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            > .bar {
+              flex-basis: 65%;
+              display: flex;
+              flex-direction: column;
+              justify-content: flex-end;
+              align-items: center;
+              > span {
+                display: inline-block;
+                width: 50%;
+                height: 100%;
+                background: transparent
+                  linear-gradient(180deg, #a6c1ee 0%, #a6c1ee0d 100%) 0% 0%
+                  no-repeat padding-box;
+                border-radius: 5px;
+              }
+            }
+            > .bar_info {
+              flex-basis: 35%;
+              text-align: center;
+              padding: 15px 0 0 0;
+              > .data {
+                letter-spacing: 0.48px;
+                color: #b6b6b7;
+              }
+              > .projects {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                > span {
+                  display: inline-block;
+                  width: 10px;
+                  height: 10px;
+                  border-radius: 50%;
+                  background-color: rgba(0, 0, 0, 0.5);
+                  margin: 10px 0 0 0;
+                }
+              }
+            }
+          }
+        }
+        > .frame_wrap {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 35%;
+          // background-color: #a6c0ee3b;
+          display: flex;
+
+          > .measure {
+            flex-basis: 5%;
+            display: flex;
+            flex-direction: column;
+            > div {
+              flex-basis: 20%;
+              position: relative;
+              > span {
+                position: absolute;
+                top: 0;
+                right: 5px;
+                transform: translateY(-50%);
+              }
+            }
+          }
+          > .frame {
+            flex-basis: 95%;
+            border-bottom: 2px solid #f0f0f0;
+            border-left: 2px solid #f0f0f0;
+          }
+        }
+      }
+    }
+    > .week_summary {
+      margin: 0 0 0 3%;
+      flex-basis: 32%;
+      display: flex;
+      flex-direction: column;
+      > .time_summary {
+        flex-basis: 30%;
+        background-color: white;
+        padding: 20px 30px;
+        box-sizing: border-box;
+        box-shadow: 0px 1px 3px #4a4a4a29;
+        > .summary_item {
+          display: flex;
+          text-align: center;
+          .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-basis: 30%;
+            font-size: 16px;
+            letter-spacing: 0.64px;
+            color: #b6b6b7;
+          }
+          .content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-basis: 70%;
+            font-size: 36px;
+            letter-spacing: 0px;
+            color: #4a4a4a;
+          }
+        }
+      }
+      > .project_summary {
+        background-color: white;
+        padding: 20px 30px;
+        box-sizing: border-box;
+        box-shadow: 0px 1px 3px #4a4a4a29;
+        margin: 7% 0 0 0;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        > .item {
+          display: flex;
+          > .icon {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            margin: auto 0;
+          }
+          > .name {
+            margin: 0 0 0 10px;
+          }
+          > .time {
+            margin: 0 0 0 auto;
+            justify-self: end;
+          }
+          + .item {
+            margin: 20px 0 0 0;
+          }
+        }
       }
     }
   }

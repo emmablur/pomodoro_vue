@@ -2,12 +2,38 @@
       <div class="side_bar">
       <div class="title">POMODORO</div>
       <div class="profile">
-        <img src="assets/img/TXT_MG_38.jpg" alt="" />
+        <img src="/assets/img/TXT_MG_38.jpg" alt="" />
         <div class="profile_name">ben choi</div>
       </div>
       <div class="menu">
-        <div class="menu_item">Dashboard</div>
-        <div class="menu_item">Analytics</div>
+
+        <router-link custom v-slot="{ navigate,isExactActive }"
+        :to="{name:'About'}">
+          <div class="menu_item"
+          :class="{'active':isExactActive}"
+          @click="navigate">
+            About
+          </div>
+        </router-link>
+
+        <router-link custom v-slot="{ navigate,isExactActive }"
+        :to="{name:'Home'}">
+          <div class="menu_item"
+          :class="[isExactActive && 'active']"
+          @click="navigate">
+            Dashboard
+          </div>
+        </router-link>
+
+        <router-link custom v-slot="{ navigate,isActive }"
+        :to="{name:'Analytics'}">
+          <div class="menu_item"
+          :class="[isActive && 'active']"
+          @click="navigate">
+            Analytics
+          </div>
+        </router-link>
+
         <div class="menu_item">Ringtones</div>
       </div>
       <div class="login"><span class="material-icons">keyboard_return</span> Sign out</div>
@@ -15,7 +41,38 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   name: 'sidebar',
+  data() {
+    return {
+      work_color: ['#FBC2EB', '#A6C1EE'],
+      break_color: ['#FBED96', '#ABECD6'],
+    };
+  },
+  computed: {
+    ...mapState(['isBreak']),
+    nowColor() {
+      return (this.isBreak) ? this.break_color : this.work_color;
+    },
+  },
 };
 </script>
+
+<style lang="scss">
+%sidebarItemBg{
+  background: linear-gradient(90deg, transparent, white),
+            linear-gradient(285deg, v-bind('nowColor[0]') 0%, v-bind('nowColor[1]') 100%);
+  }
+.menu{
+  >.active{
+    @extend %sidebarItemBg;
+  }
+  >.menu_item{
+    &:hover{
+      @extend %sidebarItemBg;
+    }
+  }
+}
+</style>
