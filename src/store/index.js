@@ -101,8 +101,9 @@ export default createStore({
     },
     doneTask(state, payload) {
       const { projects, doneTasks } = state;
-
-      projects[payload.projectIndex].tasks[payload.taskIndex].done = true;
+      const task = projects[payload.projectIndex].tasks[payload.taskIndex];
+      task.done = true;
+      task.doneDate = Date.now();
       if (state.currentTaskIndex) {
         if (payload.projectIndex === state.currentTaskIndex.projectIndex
         && payload.taskIndex === state.currentTaskIndex.taskIndex) {
@@ -152,9 +153,7 @@ export default createStore({
       commit('updateTimestamp', 0);
       commit('togglePlaying');
     },
-    doneTimer({
-      state, commit, getters,
-    }) { // 結束計時
+    doneTimer({ state, commit, getters }) { // 結束計時
       console.log('call doneTimer');
       if (!state.isBreak)commit('donePomodoro', getters.currentTask);
       if (getters.currentTask.pomodoro === 0) { // done task
@@ -183,7 +182,6 @@ export default createStore({
         dispatch('progress');
       });
     },
-
   },
   getters: {
     time(state) { // format time
