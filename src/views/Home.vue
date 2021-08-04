@@ -3,7 +3,9 @@
   <div class="main_title">
     <span v-text="(isBreak)? 'Break Time' : 'Focus Time'"></span>
     <button :style="{'background-color':(isBreak)? breakColor : workColor }"
-     @click.prevent="addProjectBoard = !addProjectBoard">NEW PROJECT</button>
+     @click.prevent="addProjectBoard = !addProjectBoard">
+     <span class="material-icons">add</span>NEW PROJECT
+     </button>
   </div>
   <div class="focus_board">
     <!-- timer -->

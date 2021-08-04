@@ -4,7 +4,7 @@
       :style="{'color':(isBreak)? break_color[1] : work_color[1] }">POMODORO</div>
       <div class="profile">
         <img src="/assets/img/TXT_MG_38.jpg" alt="" />
-        <div class="profile_name">ben choi</div>
+        <div class="profile_name">Ben Choi</div>
       </div>
       <div class="menu">
 
@@ -13,7 +13,7 @@
           <div class="menu_item"
           :class="[isExactActive && 'active']"
           @click="navigate">
-            Dashboard
+            <span class="material-icons">person</span>Dashboard
           </div>
         </router-link>
 
@@ -22,11 +22,10 @@
           <div class="menu_item"
           :class="[isActive && 'active']"
           @click="navigate">
-            Analytics
+            <span class="material-icons">bar_chart</span>Analytics
           </div>
         </router-link>
 
-        <div class="menu_item">Ringtones</div>
       </div>
       <div class="login"><span class="material-icons">keyboard_return</span> Sign out</div>
     </div>
