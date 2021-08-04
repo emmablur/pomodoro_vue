@@ -3,37 +3,26 @@
       <div class="week_graph_wrap">
         <div class="week_graph">
           <div class="bar_item_wrap">
-            <div class="bar_item" v-for="n in 7" :key="n">
-              <div class="bar">
-                <span></span>
-              </div>
-              <div class="bar_info">
-                <div class="date">
-                  <div>Mon</div>
-                  <div>3/13</div>
-                </div>
-                <div class="projects">
-                  <span></span><span></span>
-                </div>
-              </div>
-            </div>
+            <!-- GraphItem -->
+            <week-graph-item v-for="day in WeekSummary.thisWeek.slice(0).reverse()"
+             :key="day" :day="day"/>
           </div>
           <div class="frame_wrap">
             <div class="measure">
               <div>
-                <span>10h</span>
+                <span>20</span>
               </div>
               <div>
-                <span>8h</span>
+                <span>16</span>
               </div>
               <div>
-                <span>6h</span>
+                <span>12</span>
               </div>
               <div>
-                <span>4h</span>
+                <span>8</span>
               </div>
               <div>
-                <span>2h</span>
+                <span>4</span>
               </div>
             </div>
             <div class="frame">
@@ -46,28 +35,105 @@
         <div class="time_summary">
           <div class="summary_item">
             <div class="title">
-              Time
+              Pomodoro
             </div>
             <div class="content">
-              9h 13min
+              {{totalPomodoro}}
             </div>
           </div>
           <div class="summary_item">
             <div class="title">
-              Done
+              Task
             </div>
             <div class="content">
-              3
+              {{WeekSummary.totalTask}}
             </div>
           </div>
         </div>
         <div class="project_summary">
-          <div class="item" v-for="n in 4" :key="n">
-            <span class="icon"></span>
-            <span class="name">CODING</span>
-            <span class="time">26h 35min</span>
+          <div class="item" v-for="item in singleProjectPomodoro" :key="item">
+            <span class="icon" :style="{'background-color':item.color}"></span>
+            <span class="name">{{item.projectName}}</span>
+            <span class="time">{{item.pomodoroCount}}個</span>
           </div>
         </div>
       </div>
   </div>
 </template>
+
+<script>
+import { mapState } from 'vuex';
+import WeekGraphItem from '../components/WeekGraphItem.vue';
+
+export default {
+  components: {
+    WeekGraphItem,
+  },
+  computed: {
+    ...mapState(['projects']),
+    WeekSummary() {
+      const currentTime = new Date(Date.now());
+      const today = new Date(currentTime.getFullYear(),
+        currentTime.getMonth(), currentTime.getDate());
+      const thisWeek = [];
+      let totalTask = 0;
+      for (let i = 0; i < 7; i += 1) {
+        thisWeek.push({
+          time: today - (86400000 * i),
+          pomodoro: 0,
+          projectList: new Set(),
+        });
+      }
+      this.projects.forEach((project, projectIndex) => { // project
+        project.tasks.forEach((task) => { // task
+        // 檢視pomodoro
+          task.done_pomodoro.forEach((ptime) => { // done_pomodoro
+            for (let i = 0; i < 7; i += 1) {
+              if (ptime > thisWeek[i].time && ptime < (thisWeek[i].time + 86400000)) {
+                thisWeek[i].pomodoro += 1;
+                thisWeek[i].projectList.add(this.projects[projectIndex].color);
+              }
+            }
+          });
+          // 檢視task
+          if (task.done) {
+            if (task.doneDate > thisWeek[6].time
+                && task.doneDate < (thisWeek[0].time + 86400000)) {
+              totalTask += 1;
+            }
+          }
+        });
+      });
+      return { thisWeek, totalTask };
+    },
+    totalPomodoro() {
+      let total = 0;
+      this.WeekSummary.thisWeek.forEach((item) => { total += item.pomodoro; });
+      return total;
+    },
+    singleProjectPomodoro() {
+      const currentTime = new Date(Date.now());
+      const today = new Date(currentTime.getFullYear(),
+        currentTime.getMonth(), currentTime.getDate()).getTime();
+      const arr = [];
+      this.projects.forEach((project) => {
+        let sum = 0;
+        project.tasks.forEach((task) => {
+          task.done_pomodoro.forEach((ptime) => {
+            if (ptime > (today - 86400000 * 6) && ptime < (today + 86400000)) {
+              sum += 1;
+            }
+          });
+        });
+        arr.push({
+          projectName: project.projectName,
+          color: project.color,
+          pomodoroCount: sum,
+        });
+      });
+
+      return arr;
+    },
+  },
+};
+</script>

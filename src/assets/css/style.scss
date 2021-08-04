@@ -2,6 +2,27 @@
 body {
   background-color: #f8f9fa;
 }
+
+/* width */
+::-webkit-scrollbar {
+  width: 0px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .material-icons {
   font-size: 1rem;
 }
@@ -43,7 +64,6 @@ body {
     }
   }
   > .login {
-    background-color: #c5d7f7;
     padding: 20px;
   }
 }
@@ -53,7 +73,7 @@ body {
   div {
     border-radius: 3px;
   }
-  > .main_title {
+  .main_title {
     padding: 28px 0;
     height: 47px;
     display: flex;
@@ -70,7 +90,7 @@ body {
       cursor: pointer;
     }
   }
-  > .focus_board {
+  .focus_board {
     display: flex;
     margin: 0 0 25px 0;
 
@@ -162,6 +182,11 @@ body {
           color: #d8d8d8;
           padding: 5px 25px;
           cursor: pointer;
+          transition: 0.25s;
+          &:hover {
+            color: #acacac;
+            border: 2px #acacac solid;
+          }
         }
       }
       > .record_time {
@@ -170,94 +195,137 @@ body {
         justify-content: center;
         align-items: center;
         font-size: 48px;
+        .unit {
+          font-size: 15px;
+          color: #acacac;
+        }
       }
     }
   }
-  > .task_board {
+  .task_board {
     display: flex;
     // background-color: rgb(214, 214, 161);
     position: relative;
-    > .todo_project {
-      width: 250px;
-      margin: 0 15px 0 0;
-      > .todo_title_wrap {
-        position: relative;
-        padding: 10px 20px;
-        background-color: white;
-        border-radius: 0 0 3px 3px;
-        box-shadow: 0px 1px 3px #4a4a4a29;
-        // &:hover {
-        //   box-shadow: #82aaed 0px 0px 5px;
-        // }
-        &::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          top: -5px;
-          height: 5px;
-          border-radius: 3px 3px 0 0;
-          // background-color: rgb(177, 119, 119); <-搬到.vue
-        }
-        > .todo_title_name {
-          display: flex;
-          justify-content: space-between;
-        }
-        > .task_add_board {
-          padding: 10px 0;
-          // border-top: solid grey 1px;
-          label {
-            color: grey;
-            font-size: 12px;
-          }
-          input {
-            width: 100%;
-            box-sizing: border-box;
-          }
-          button {
-            display: block;
-            margin: 10px 0 0 auto;
-            width: 50px;
-            text-align: center;
-            background: grey;
-            border: none;
-          }
-        }
-      }
-      > .todo_list {
-        > .todo_item {
+    .todo_project_wrap {
+      display: flex;
+      width: calc(100vw - 200px - 260px - 60px);
+      height: calc(100vh - 40px - 103px - 240px - 25px);
+      overflow-x: auto;
+      .todo_project {
+        flex-basis: 250px;
+        flex-shrink: 0;
+        margin: 5px 15px 0 0;
+        display: flex;
+        flex-direction: column;
+        .todo_title_wrap {
+          position: relative;
+          padding: 10px 20px;
           background-color: white;
-          margin: 15px 0 0 0;
+          border-radius: 0 0 3px 3px;
           box-shadow: 0px 1px 3px #4a4a4a29;
-          border: 1px solid transparent;
-          > .item_title_wrap {
-            padding: 10px 20px;
-            display: flex;
-            > .item_title {
-              flex-grow: 1;
-              text-align: left;
-            }
+          // &:hover {
+          //   box-shadow: #82aaed 0px 0px 5px;
+          // }
+          .todo_title_dec {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: -5px;
+            height: 5px;
+            border-radius: 3px 3px 0 0;
+            // background-color: rgb(177, 119, 119);
           }
-          > .item_checker {
-            padding: 10px 20px;
-            border-top: 1px solid rgba(128, 128, 128, 0.445);
+          > .todo_title_name {
             display: flex;
-            > .checker_pomodoro {
-              flex-grow: 1;
-              text-align: left;
-              > span {
-                display: inline-block;
-                width: 10px;
-                height: 10px;
-                margin: 0 0 0 7px;
-                border-radius: 50%;
-                background-color: rgba(0, 0, 0, 0.5);
-                //<- 移到todoItem template
+            justify-content: space-between;
+          }
+          > .task_add_board {
+            padding: 10px 0;
+            // border-top: solid grey 1px;
+            label {
+              color: grey;
+              font-size: 12px;
+            }
+            input {
+              width: 100%;
+              box-sizing: border-box;
+            }
+            button {
+              display: block;
+              font-size: 10px;
+              width: 80px;
+              text-align: center;
+              background: none;
+              border: 1px solid black;
+              border-radius: 3px;
+              cursor: pointer;
+            }
+            .task_add_button {
+              padding: 10px 0;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              span {
+                font-size: 10px;
+                color: #acacac;
+                cursor: pointer;
               }
             }
           }
-          &:hover {
-            border: 1px solid #a6c1ee;
+        }
+        > .todo_list {
+          overflow: auto;
+          flex-grow: 1;
+          > .todo_item {
+            background-color: white;
+            margin: 15px 0 0 0;
+            box-shadow: 0px 1px 3px #4a4a4a29;
+            border: 1px solid transparent;
+            > .item_title_wrap {
+              padding: 10px 20px;
+              display: flex;
+              > .item_title {
+                flex-grow: 1;
+                text-align: left;
+              }
+              > .item_pause span {
+                transition: 0.25s;
+                &:hover {
+                  color: #82aaed;
+                  cursor: pointer;
+                }
+              }
+            }
+            > .item_checker {
+              padding: 10px 20px;
+              border-top: 1px solid rgba(128, 128, 128, 0.445);
+              display: flex;
+              > .checker_pomodoro {
+                flex-grow: 1;
+                text-align: left;
+                > span {
+                  display: inline-block;
+                  width: 10px;
+                  height: 10px;
+                  margin: 0 0 0 7px;
+                  border-radius: 50%;
+                  background-color: rgba(0, 0, 0, 0.5);
+                  //<- 移到todoItem template
+                }
+              }
+              > .material-icons {
+                cursor: pointer;
+                transition: 0.25s;
+                &:hover {
+                  color: #82aaed;
+                  cursor: pointer;
+                }
+              }
+            }
+            &:hover {
+              border: 1px solid #a6c1ee;
+            }
           }
         }
       }
@@ -267,6 +335,7 @@ body {
       right: 0;
       top: 0;
       width: 250px;
+      margin: 5px 0 0 0;
       > .done_title {
         padding: 10px 20px;
         background-color: white;
@@ -328,7 +397,7 @@ body {
       }
     }
   }
-  > .duration_toggle_wrap {
+  .duration_toggle_wrap {
     padding: 28px 0;
     height: 47px;
     text-align: right;
@@ -346,11 +415,11 @@ body {
       }
       > .active {
         color: #d8d8d8;
-        cursor: not-allowed;
+        cursor: default;
       }
     }
   }
-  > .project_add_board {
+  .project_add_board {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -372,10 +441,21 @@ body {
       }
       input {
         width: 100%;
+        margin: 0 0 10px 0 ;
+      }
+      button{
+        display: block;
+
+        width: 150px;
+        margin: 10px 0 0 auto;
+        padding: 5px 0;
+        background: white;
+        border-radius: 3px;
+        border: none;
       }
     }
   }
-  > .analytics_board {
+  .analytics_board {
     display: flex;
     margin: 0 0 25px 0;
     > .day_graph {
@@ -395,20 +475,20 @@ body {
           padding: 0 3% 0 0;
         }
         > .graph_item_line_wrap {
-          flex-basis: 40%;
+          flex-basis: 50%;
           > .graph_item_line {
             position: relative;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             height: 100%;
-            width: 80%;
+            // width: 80%;
             > span {
               display: inline-block;
               width: 100%;
-              background: transparent
-                linear-gradient(270deg, #fbc2eb 0%, #fbc2eb1a 100%) 0% 0%
-                no-repeat padding-box;
+              // background: transparent
+              //   linear-gradient(270deg, #fbc2eb 0%, #fbc2eb1a 100%) 0% 0%
+              //   no-repeat padding-box;
               border-radius: 10px;
               height: 4px;
             }
@@ -456,6 +536,11 @@ body {
           font-size: 36px;
           letter-spacing: 0px;
           color: #4a4a4a;
+          .unit {
+            margin: 0 0 0 5px;
+            font-size: 15px;
+            color: #acacac;
+          }
         }
       }
     }
@@ -489,7 +574,7 @@ body {
               > span {
                 display: inline-block;
                 width: 50%;
-                height: 100%;
+                // height: 80%;
                 background: transparent
                   linear-gradient(180deg, #a6c1ee 0%, #a6c1ee0d 100%) 0% 0%
                   no-repeat padding-box;

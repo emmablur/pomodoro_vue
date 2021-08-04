@@ -1,4 +1,5 @@
 ﻿<template>
+<section>
   <div class="duration_toggle_wrap">
      <div class="duration_toggle">
         <router-link custom :to="{name:'WeekAnalytics'}"
@@ -23,7 +24,14 @@
         </router-link>
      </div>
   </div>
-  <router-view></router-view>
+
+  <router-view v-slot="{Component}">
+    <transition name="fade" mode="out-in">
+      <component :is="Component"></component>
+    </transition>
+  </router-view>
+
+</section>
 </template>
 
 <script>
@@ -31,3 +39,16 @@ export default {
   name: 'Analytics',
 };
 </script>
+
+<style>
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-active{
+  transition: all 0.25s linear;
+}
+.fade-leave-to {
+  transition: all 0.25s linear;
+  opacity: 0;
+}
+</style>

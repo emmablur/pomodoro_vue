@@ -19,13 +19,13 @@ export default createStore({
           {
             name: '擦拭電腦',
             pomodoro: 1,
-            done_pomodoro: 0,
+            done_pomodoro: [],
             done: false,
           },
           {
             name: '看282',
             pomodoro: 2,
-            done_pomodoro: 0,
+            done_pomodoro: [],
             done: false,
           },
         ],
@@ -37,7 +37,7 @@ export default createStore({
           {
             name: '看書',
             pomodoro: 2,
-            done_pomodoro: 0,
+            done_pomodoro: [],
             done: false,
           },
         ],
@@ -96,7 +96,7 @@ export default createStore({
     donePomodoro(state, payload) {
       const { projects, doneTasks } = state;
       projects[payload.projectIndex].tasks[payload.taskIndex].pomodoro -= 1;
-      projects[payload.projectIndex].tasks[payload.taskIndex].done_pomodoro += 1;
+      projects[payload.projectIndex].tasks[payload.taskIndex].done_pomodoro.push(Date.now());
       LS.save({ projects, doneTasks });
     },
     doneTask(state, payload) {
@@ -123,12 +123,17 @@ export default createStore({
       state.projects[payload.projectIndex].tasks.splice(payload.taskIndex, 1);
       LS.save({ projects, doneTasks });
     },
+    deleteProject(state, payload) {
+      const { projects, doneTasks } = state;
+      state.projects.splice(payload, 1);
+      LS.save({ projects, doneTasks });
+    },
     resetTask(state, payload) {
       const { projects, doneTasks } = state;
       const task = projects[payload.projectIndex].tasks[payload.taskIndex];
       // reset pomodoro
-      task.pomodoro += task.done_pomodoro;
-      task.done_pomodoro = 0;
+      task.pomodoro += task.done_pomodoro.length;
+      task.done_pomodoro = [];
       // reset done
       task.done = false;
       // delete item in doneTasks
@@ -139,6 +144,7 @@ export default createStore({
   actions: {
     initProjects({ commit, state }) { // 初始化所有任務等等, 從localStorage
       const { projects, doneTasks } = state;
+
       if (LS.load() === null) {
         LS.save({ projects, doneTasks }); // 先帶入預設資料
       }
@@ -206,6 +212,25 @@ export default createStore({
       const pass = totalTime - (state.time[0] * 60 + state.time[1]) * 100 + state.time[2];
       const passDeg = (pass / (totalTime)) * 360;
       return `${passDeg}deg`;
+    },
+    DoneTaskCount(state) {
+      const currentTime = new Date(Date.now());
+      const tomorrow = new Date(currentTime.getFullYear(),
+        currentTime.getMonth(), currentTime.getDate() + 1);
+      const today = new Date(currentTime.getFullYear(),
+        currentTime.getMonth(), currentTime.getDate());
+      let DonePomodoroCount = 0; // 今天完成的pomodoro總數
+
+      state.projects.forEach((project) => {
+        project.tasks.forEach((task) => {
+          task.done_pomodoro.forEach((ptime) => {
+            if (ptime > today && ptime < tomorrow) {
+              DonePomodoroCount += 1;
+            }
+          });
+        });
+      });
+      return DonePomodoroCount;
     },
   },
 });

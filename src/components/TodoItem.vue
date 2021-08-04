@@ -11,7 +11,8 @@
     </div>
     <div class="item_checker" v-show="open">
       <div class="checker_pomodoro">
-        <span v-for="n in task.done_pomodoro" :key="n" :style="{'background-color':color}"></span>
+        <span v-for="n in task.done_pomodoro.length"
+        :key="n" :style="{'background-color':color}"></span>
         <span v-for="n in task.pomodoro" :key="n"></span>
       </div>
       <span class="material-icons" @click="doneTask({projectIndex,taskIndex})"> done </span>

@@ -1,6 +1,7 @@
 ﻿<template>
   <div class="todo_project">
     <div class="todo_title_wrap">
+      <span class="todo_title_dec"></span>
       <div class="todo_title_name" @click.prevent="open = !open">
         <div>{{project.projectName}}</div>
         <div class="todo_add_icon">
@@ -18,7 +19,10 @@
           <error-message name="pomodoro" class="error_message"/>
           <vee-field type="number" class="add_pomodoro" name="pomodoro"/>
         </div>
-        <button>+</button>
+        <div class="task_add_button">
+          <span @click.prevent="confirmDeleteProject">刪除專案</span>
+          <button>新增任務</button>
+        </div>
       </vee-form>
     </div>
     <div class="todo_list">
@@ -33,6 +37,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
 import todoItem from './TodoItem.vue';
 
 export default {
@@ -57,6 +62,7 @@ export default {
     todoItem,
   },
   methods: {
+    ...mapMutations(['deleteProject']),
     addTask(values, { resetForm }) {
       console.log(values);
       const payload = {
@@ -64,7 +70,7 @@ export default {
         task: {
           name: values.name,
           pomodoro: parseFloat(values.pomodoro),
-          done_pomodoro: 0,
+          done_pomodoro: [],
           done: false,
         },
       };
@@ -73,13 +79,19 @@ export default {
       this.open = false;
       resetForm();
     },
+    confirmDeleteProject() {
+      // eslint-disable-next-line no-restricted-globals
+      if (confirm(`要刪除 ${this.project.projectName} 專案嗎?`)) {
+        this.deleteProject(this.projectIndex);
+      }
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .todo_title_wrap{
-  &::after {
+  .todo_title_dec {
     background-color: v-bind('project.color');
   }
 }

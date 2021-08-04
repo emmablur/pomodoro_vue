@@ -5,11 +5,13 @@
     </div>
     <div class="current_task_wrap">
       <div class="current_task">
-        <div class="task_title" v-text="(currentTask.name)? currentTask.name : '請選擇任務<3'"></div>
+        <div class="task_title" v-text="(currentTask.name)? currentTask.name : '請選擇任務'"></div>
         <div class="task_pomodoro">
-          <span v-for="n in currentTask.done_pomodoro"
+          <template  v-if="currentTask.name">
+           <span v-for="n in currentTask.done_pomodoro.length"
           :key="n" :style="{'background-color':currentTask.color}"></span>
           <span v-for="n in currentTask.pomodoro" :key="n"></span>
+          </template>
         </div>
         <button class="task_button" :disabled="!currentTask.name"
         @click.prevent="(playing)? pauseTimer() : startTimer()" >

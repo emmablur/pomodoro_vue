@@ -1,7 +1,9 @@
 <template>
+<section>
   <div class="main_title">
     <span v-text="(isBreak)? 'Break Time' : 'Focus Time'"></span>
-    <button @click.prevent="addProjectBoard = !addProjectBoard">NEW PROJECT</button>
+    <button :style="{'background-color':(isBreak)? breakColor : workColor }"
+     @click.prevent="addProjectBoard = !addProjectBoard">NEW PROJECT</button>
   </div>
   <div class="focus_board">
     <!-- timer -->
@@ -9,15 +11,22 @@
     <div class="time_record">
       <div class="record_title">
         <span>Today</span>
-        <button>More</button>
+        <router-link custom v-slot="{ navigate }"
+        :to="{name:'Analytics'}">
+        <button @click="navigate">More</button>
+        </router-link>
       </div>
-      <div class="record_time">2h 5min</div>
+      <div class="record_time">
+        <span>{{DoneTaskCount}} <span class="unit">/pomodoro</span></span>
+      </div>
     </div>
   </div>
   <div class="task_board">
+    <div class="todo_project_wrap">
     <!-- todo project -->
-    <todo-project v-for="index in projectIndex" :key="index"
-    :project="projects[index]" :projectIndex="index"/>
+      <todo-project v-for="index in projectIndex" :key="index"
+      :project="projects[index]" :projectIndex="index"/>
+    </div>
     <!-- done project -->
     <div class="done_project">
       <div class="done_title">DONE</div>
@@ -27,21 +36,24 @@
       </div>
     </div>
   </div>
-  <div class="project_add_board"
-  v-if="addProjectBoard"
-  @click="addProjectBoard = !addProjectBoard">
-    <vee-form :validation-schema="schema"
-      @click.stop @submit="addProject">
-      <div class="project_add_board_title">新增專案</div>
-      <label for="">專案名稱</label>
-      <error-message name="projectName" class="error_message"/>
-      <vee-field type="text" name="projectName"/>
-      <label for="">代表色彩</label>
-      <error-message name="color" class="error_message"/>
-      <vee-field type="color" name="color" />
-      <button>提交</button>
-    </vee-form>
-  </div>
+  <transition name="fade">
+    <div class="project_add_board"
+    v-if="addProjectBoard"
+    @click="addProjectBoard = !addProjectBoard">
+      <vee-form :validation-schema="schema"
+        @click.stop @submit="addProject">
+        <div class="project_add_board_title">新增專案</div>
+        <label for="">專案名稱</label>
+        <error-message name="projectName" class="error_message"/>
+        <vee-field type="text" name="projectName"/>
+        <label for="">代表色彩</label>
+        <error-message name="color" class="error_message"/>
+        <vee-field type="color" name="color" />
+        <button>提交</button>
+      </vee-form>
+    </div>
+  </transition>
+</section>
 </template>
 
 <script>
@@ -59,11 +71,13 @@ export default {
         projectName: 'required',
         color: 'required',
       },
+      breakColor: '#9BDEC8',
+      workColor: '#82AAED',
     };
   },
   computed: {
     ...mapState(['projects', 'doneTasks', 'isBreak']),
-    ...mapGetters(['projectIndex']),
+    ...mapGetters(['projectIndex', 'DoneTaskCount']),
   },
   components: {
     timer,
@@ -74,7 +88,7 @@ export default {
     addProject(values, resetForm) {
       const payload = {
         tasks: [],
-        done_pomodoro: 0,
+        // done_pomodoro: [],
         ...values,
       };
       this.$store.commit('addProject', payload);
@@ -84,3 +98,16 @@ export default {
   },
 };
 </script>
+
+<style>
+.fade-enter-from {
+  opacity: 0;
+}
+.fade-enter-active{
+  transition: all 0.25s linear;
+}
+.fade-leave-to {
+  transition: all 0.25s linear;
+  opacity: 0;
+}
+</style>

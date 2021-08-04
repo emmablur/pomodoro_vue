@@ -1,20 +1,12 @@
 ﻿<template>
       <div class="side_bar">
-      <div class="title">POMODORO</div>
+      <div class="title"
+      :style="{'color':(isBreak)? break_color[1] : work_color[1] }">POMODORO</div>
       <div class="profile">
         <img src="/assets/img/TXT_MG_38.jpg" alt="" />
         <div class="profile_name">ben choi</div>
       </div>
       <div class="menu">
-
-        <router-link custom v-slot="{ navigate,isExactActive }"
-        :to="{name:'About'}">
-          <div class="menu_item"
-          :class="{'active':isExactActive}"
-          @click="navigate">
-            About
-          </div>
-        </router-link>
 
         <router-link custom v-slot="{ navigate,isExactActive }"
         :to="{name:'Home'}">
