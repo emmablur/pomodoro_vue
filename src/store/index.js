@@ -52,9 +52,9 @@ export default createStore({
     }],
     doneTasks: [{ projectIndex: 1, taskIndex: 2, color: '#a6c1ee' }, { projectIndex: 0, taskIndex: 4, color: '#fbc2eb' }, { projectIndex: 2, taskIndex: 4, color: '#abecd6' }, { projectIndex: 2, taskIndex: 1, color: '#abecd6' }],
     playing: false, // 是否在計時
-    work_time: [0, 1, 0],
-    break_time: [0, 1, 0],
-    time: [0, 5, 0],
+    work_time: [25, 0, 0],
+    break_time: [5, 0, 0],
+    time: [25, 0, 0],
     timestamp: 0,
     currentTaskIndex: null, // 當前進行的任務
     isBreak: false,
