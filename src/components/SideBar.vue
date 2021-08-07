@@ -7,8 +7,8 @@
       <div class="title"
       :style="{'color':(isBreak)? break_color[1] : work_color[1] }">POMODORO</div>
       <div class="profile">
-        <img src="/assets/img/TXT_MG_38.jpg" alt="" />
-        <div class="profile_name">Ben Choi</div>
+        <img src="/assets/img/smileface.png" alt="" />
+        <div class="profile_name">User</div>
       </div>
       <div class="menu">
         <router-link custom v-slot="{ isExactActive }"
