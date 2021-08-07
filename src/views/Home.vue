@@ -87,10 +87,9 @@ export default {
     doneItem,
   },
   methods: {
-    addProject(values, resetForm) {
+    addProject(values, { resetForm }) {
       const payload = {
         tasks: [],
-        // done_pomodoro: [],
         ...values,
       };
       this.$store.commit('addProject', payload);

@@ -48,7 +48,7 @@ export default {
       open: false,
       schema: {
         name: 'required',
-        pomodoro: 'required|min_value:0',
+        pomodoro: 'required|min_value:1',
       },
     };
   },
@@ -81,7 +81,7 @@ export default {
     },
     confirmDeleteProject() {
       // eslint-disable-next-line no-restricted-globals
-      if (confirm(`要刪除 ${this.project.projectName} 專案嗎?`)) {
+      if (confirm(`過往的資料也會遺失。要刪除 ${this.project.projectName} 專案嗎?`)) {
         this.deleteProject(this.projectIndex);
       }
     },

@@ -52,9 +52,11 @@
         </div>
         <div class="project_summary">
           <div class="item" v-for="item in singleProjectPomodoro" :key="item">
-            <span class="icon" :style="{'background-color':item.color}"></span>
-            <span class="name">{{item.projectName}}</span>
-            <span class="time">{{item.pomodoroCount}}個</span>
+            <div class="icon" >
+              <span :style="{'background-color':item.color}"></span>
+            </div>
+            <div class="name">{{item.projectName}}</div>
+            <div class="time">{{item.pomodoroCount}}個</div>
           </div>
         </div>
       </div>

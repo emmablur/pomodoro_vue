@@ -125,6 +125,8 @@ export default createStore({
     },
     deleteProject(state, payload) {
       const { projects, doneTasks } = state;
+
+      state.doneTasks = doneTasks.filter((item) => item.projectIndex !== payload);
       state.projects.splice(payload, 1);
       LS.save({ projects, doneTasks });
     },
@@ -144,7 +146,7 @@ export default createStore({
   actions: {
     initProjects({ commit, state }) { // 初始化所有任務等等, 從localStorage
       const { projects, doneTasks } = state;
-
+      LS.save({ projects, doneTasks }); // 先帶入預設資料
       if (LS.load() === null) {
         LS.save({ projects, doneTasks }); // 先帶入預設資料
       }

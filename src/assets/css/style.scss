@@ -1,6 +1,14 @@
 ﻿html,
 body {
   background-color: #f8f9fa;
+  box-sizing: border-box;
+}
+
+$pad: 768px;
+@mixin rwd($width) {
+  @media (max-width: $width) {
+    @content;
+  }
 }
 
 /* width */
@@ -29,6 +37,32 @@ body {
 .wrap {
   display: flex;
 }
+.side_bar_toggle {
+  display: none;
+  @include rwd($pad) {
+    display: block;
+  }
+  span {
+    position: absolute;
+    top: 5px;
+    left: 25px;
+    font-size: 30px;
+    cursor: pointer;
+  }
+}
+.side_bar_bg {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  transition: opacity 0.25s;
+  @include rwd($pad) {
+    display: block;
+  }
+}
 .side_bar {
   background-color: white;
   padding: 40px 0;
@@ -38,6 +72,15 @@ body {
   display: flex;
   flex-direction: column;
   border-radius: 0 10px 10px 0;
+  transform: translate(0);
+  transition: 0.25s ease;
+  @include rwd($pad) {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+    transform: translate(-100%);
+  }
   > .title {
     color: #82aaed;
     text-align: center;
@@ -63,7 +106,7 @@ body {
       cursor: pointer;
       display: flex;
       align-items: center;
-      .material-icons{
+      .material-icons {
         font-size: 1.4rem;
       }
     }
@@ -74,6 +117,7 @@ body {
 }
 .main {
   flex-grow: 1;
+  box-sizing: border-box;
   padding: 20px 30px;
   div {
     border-radius: 3px;
@@ -100,13 +144,16 @@ body {
   .focus_board {
     display: flex;
     margin: 0 0 25px 0;
-
+    @include rwd($pad) {
+      flex-direction: column;
+    }
     > .timer {
       background-color: white;
       flex-basis: 55%;
       padding: 20px 10px;
       display: flex;
       box-shadow: 0px 1px 3px #4a4a4a29;
+
       > .clock {
         display: flex;
         justify-content: center;
@@ -117,6 +164,10 @@ body {
         height: 200px;
         width: 200px;
         border-radius: 50%;
+        @include rwd($pad) {
+          height: 150px;
+          width: 150px;
+        }
         > div {
           display: flex;
           justify-content: center;
@@ -175,6 +226,11 @@ body {
       flex-basis: 42%;
       display: flex;
       flex-direction: column;
+      @include rwd($pad) {
+        margin: 10px 0 0 0;
+        position: relative;
+      }
+
       > .record_title {
         display: flex;
         justify-content: space-between;
@@ -206,6 +262,14 @@ body {
           font-size: 15px;
           color: #acacac;
         }
+        @include rwd($pad) {
+          position: absolute;
+          left: 100px;
+          right: 100px;
+          top: 0;
+          bottom: 0;
+          font-size: 36px;
+        }
       }
     }
   }
@@ -217,16 +281,28 @@ body {
       display: flex;
       width: calc(100vw - 200px - 260px - 60px);
       height: calc(100vh - 40px - 103px - 240px - 25px);
+      transition: 0.25s;
       overflow-x: auto;
+      @include rwd($pad) {
+        flex-basis: 50%;
+        width: calc(100vw - 260px - 60px);
+        height: auto;
+        flex-direction: column;
+      }
+
       .todo_project {
         flex-basis: 230px;
         flex-shrink: 0;
         margin: 5px 15px 0 0;
         display: flex;
         flex-direction: column;
+        @include rwd($pad) {
+          flex-basis: auto;
+          margin: 5px 0px 15px 0;
+        }
         .todo_title_wrap {
           position: relative;
-          padding: 10px 20px;
+
           background-color: white;
           border-radius: 0 0 3px 3px;
           box-shadow: 0px 1px 3px #4a4a4a29;
@@ -246,9 +322,11 @@ body {
           > .todo_title_name {
             display: flex;
             justify-content: space-between;
+            padding: 10px 20px;
+            cursor: pointer;
           }
           > .task_add_board {
-            padding: 10px 0;
+            padding: 0 20px 10px 20px;
             // border-top: solid grey 1px;
             label {
               color: grey;
@@ -342,8 +420,19 @@ body {
       right: 0;
       top: 0;
       width: 250px;
+      height: calc(100vh - 40px - 103px - 240px - 25px);
       margin: 5px 0 0 0;
+      display: flex;
+      flex-direction: column;
+      @include rwd($pad) {
+        position: relative;
+        flex-basis: 50%;
+        height: auto;
+        padding: 0 0 0 15px;
+        box-sizing: border-box;
+      }
       > .done_title {
+        position: relative;
         padding: 10px 20px;
         background-color: white;
         border-radius: 0 0 3px 3px;
@@ -363,6 +452,8 @@ body {
         }
       }
       > .done_list {
+        overflow: auto;
+        flex-grow: 1;
         > .done_item {
           background-color: white;
           margin: 15px 0 0 0;
@@ -465,6 +556,9 @@ body {
   .analytics_board {
     display: flex;
     margin: 0 0 25px 0;
+    @include rwd($pad) {
+      flex-direction: column-reverse;
+    }
     > .day_graph {
       background-color: white;
       flex-basis: 55%;
@@ -523,9 +617,18 @@ body {
       flex-direction: column;
       justify-content: space-around;
       height: 200px;
+      @include rwd($pad) {
+        margin: 0 0 15px 0;
+        flex-direction: row;
+        padding: 10px 30px;
+      }
       > .summary_item {
         display: flex;
         text-align: center;
+        @include rwd($pad) {
+          justify-content: space-between;
+          flex-basis: 50%;
+        }
         .title {
           display: flex;
           justify-content: center;
@@ -554,10 +657,15 @@ body {
     > .week_graph_wrap {
       background-color: white;
       flex-basis: 65%;
+
       box-sizing: border-box;
       padding: 40px 44px;
       box-shadow: 0px 1px 3px #4a4a4a29;
       height: 400px;
+      @include rwd($pad) {
+        flex-basis: auto;
+        margin: 15px 0 0 0;
+      }
       > .week_graph {
         height: 100%;
         position: relative;
@@ -568,12 +676,16 @@ body {
           width: 100%;
           box-sizing: border-box;
           justify-content: space-between;
+          @include rwd($pad) {
+            padding: 0;
+          }
           > .bar_item {
             height: 100%;
             display: flex;
             flex-direction: column;
             > .bar {
               flex-basis: 65%;
+              flex-shrink: 0;
               display: flex;
               flex-direction: column;
               justify-content: flex-end;
@@ -590,6 +702,7 @@ body {
             }
             > .bar_info {
               flex-basis: 35%;
+              flex-shrink: 0;
               text-align: center;
               padding: 15px 0 0 0;
               > .data {
@@ -625,6 +738,9 @@ body {
             flex-basis: 5%;
             display: flex;
             flex-direction: column;
+            @include rwd($pad) {
+              flex-basis: 0%;
+            }
             > div {
               flex-basis: 20%;
               position: relative;
@@ -649,15 +765,27 @@ body {
       flex-basis: 32%;
       display: flex;
       flex-direction: column;
+      @include rwd($pad) {
+        margin: 0;
+      }
       > .time_summary {
         flex-basis: 30%;
+        display: flex;
+        flex-direction: column;
         background-color: white;
         padding: 20px 30px;
         box-sizing: border-box;
         box-shadow: 0px 1px 3px #4a4a4a29;
+        @include rwd($pad) {
+          flex-direction: row;
+          padding: 10px 30px;
+        }
         > .summary_item {
           display: flex;
           text-align: center;
+          @include rwd($pad) {
+            flex-basis: 50%;
+          }
           .title {
             display: flex;
             justify-content: center;
@@ -688,25 +816,47 @@ body {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        @include rwd($pad) {
+          margin: 15px 0 0 0;
+          flex-direction: row;
+          justify-content: flex-start;
+          flex-wrap: wrap;
+        }
         > .item {
           display: flex;
+          box-sizing: border-box;
+          @include rwd($pad) {
+            flex-basis: 50%;
+            padding: 0 20px;
+          }
           > .icon {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: rgba(0, 0, 0, 0.5);
-            margin: auto 0;
+            flex-basis: 10%;
+            flex-shrink: 0;
+            span {
+              display: inline-block;
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background-color: rgba(0, 0, 0, 0.5);
+              margin: auto 0;
+            }
           }
           > .name {
+            flex-basis: 70%;
+            flex-shrink: 0;
             margin: 0 0 0 10px;
           }
           > .time {
-            margin: 0 0 0 auto;
+            flex-basis: 20%;
+            flex-shrink: 0;
             justify-self: end;
+            white-space: nowrap;
           }
           + .item {
             margin: 20px 0 0 0;
+            @include rwd($pad) {
+              margin: 0;
+            }
           }
         }
       }
