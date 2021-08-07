@@ -64,7 +64,6 @@ export default {
   methods: {
     ...mapMutations(['deleteProject']),
     addTask(values, { resetForm }) {
-      console.log(values);
       const payload = {
         projectIndex: this.projectIndex,
         task: {
@@ -74,7 +73,6 @@ export default {
           done: false,
         },
       };
-      console.log(payload);
       this.$store.commit('addTask', payload);
       this.open = false;
       resetForm();

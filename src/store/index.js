@@ -11,42 +11,49 @@ const LS = {
 
 export default createStore({
   state: {
-    projects: [
-      {
-        projectName: '生活',
-        color: '#01dc8c',
-        tasks: [
-          {
-            name: '擦拭電腦',
-            pomodoro: 1,
-            done_pomodoro: [],
-            done: false,
-          },
-          {
-            name: '看282',
-            pomodoro: 2,
-            done_pomodoro: [],
-            done: false,
-          },
-        ],
-      },
-      {
-        projectName: '學習',
-        color: '#cb345b',
-        tasks: [
-          {
-            name: '看書',
-            pomodoro: 2,
-            done_pomodoro: [],
-            done: false,
-          },
-        ],
-      },
-    ],
-    doneTasks: [],
+    projects: [{
+      tasks: [{
+        name: 'Mockup', pomodoro: 2, done_pomodoro: [1628188723158, 1628188723158], done: false,
+      }, {
+        name: 'Wireframe', pomodoro: 4, done_pomodoro: [1628275123158, 1628275123158, 1628275123158, 1628188723158, 1628188723158], done: false,
+      }, {
+        name: 'UI flow', pomodoro: 4, done_pomodoro: [1628361574803, 1628361578234], done: false,
+      }, {
+        name: 'Function map', pomodoro: 2, done_pomodoro: [1628275123158], done: false,
+      }, {
+        name: 'A/B test', pomodoro: 0, done_pomodoro: [1628361523158, 1628361526123, 1628361529623], done: true, doneDate: 1628361529624,
+      }],
+      projectName: 'DESIGN',
+      color: '#fbc2eb',
+    }, {
+      tasks: [{
+        name: 'Function map', pomodoro: 1, done_pomodoro: [1628361583519], done: false,
+      }, {
+        name: 'Back end', pomodoro: 5, done_pomodoro: [1628015923158, 1628015923158, 1628015923158, 1628015923158, 1628015923158], done: false,
+      }, {
+        name: 'Online meeting', pomodoro: 0, done_pomodoro: [1628361512026, 1628361515609, 1628361518308], done: true, doneDate: 1628361518309,
+      }],
+      projectName: 'CODING',
+      color: '#a6c1ee',
+    }, {
+      tasks: [{
+        name: 'Study project', pomodoro: 2, done_pomodoro: [1628188723158, 1627929523158], done: false,
+      }, {
+        name: 'Home work', pomodoro: 0, done_pomodoro: [1628361586066, 1628361589681], done: true, doneDate: 1628361589682,
+      }, {
+        name: 'Review class', pomodoro: 2, done_pomodoro: [1627843123158, 1627843123158], done: false,
+      }, {
+        name: 'Read essay', pomodoro: 4, done_pomodoro: [1628102323158, 1628102323158, 1628102323158, 1627843123158], done: false,
+      }, {
+        name: 'Market Research', pomodoro: 0, done_pomodoro: [1628361535939, 1628361539521, 1628361542355, 1627756723158, 1627756723158], done: true, doneDate: 1628361542356,
+      }],
+      projectName: 'STUDY',
+      color: '#abecd6',
+    }],
+    doneTasks: [{ projectIndex: 1, taskIndex: 2, color: '#a6c1ee' }, { projectIndex: 0, taskIndex: 4, color: '#fbc2eb' }, { projectIndex: 2, taskIndex: 4, color: '#abecd6' }, { projectIndex: 2, taskIndex: 1, color: '#abecd6' }],
     playing: false, // 是否在計時
-    work_time: [0, 5, 0],
-    break_time: [0, 3, 0],
+    work_time: [0, 1, 0],
+    break_time: [0, 1, 0],
     time: [0, 5, 0],
     timestamp: 0,
     currentTaskIndex: null, // 當前進行的任務
@@ -110,7 +117,6 @@ export default createStore({
           state.currentTaskIndex = null;
         }
       }
-
       doneTasks.push({
         projectIndex: payload.projectIndex,
         taskIndex: payload.taskIndex,
@@ -124,10 +130,21 @@ export default createStore({
       LS.save({ projects, doneTasks });
     },
     deleteProject(state, payload) {
-      const { projects, doneTasks } = state;
-
-      state.doneTasks = doneTasks.filter((item) => item.projectIndex !== payload);
       state.projects.splice(payload, 1);
+      const newDoneTask = [];
+      state.projects.forEach((project, projectIndex) => {
+        project.tasks.forEach((task, taskIndex) => {
+          if (task.done) {
+            newDoneTask.push({
+              projectIndex,
+              taskIndex,
+              color: project.color,
+            });
+          }
+        });
+      });
+      state.doneTasks = newDoneTask;
+      const { projects, doneTasks } = state;
       LS.save({ projects, doneTasks });
     },
     resetTask(state, payload) {
@@ -146,7 +163,6 @@ export default createStore({
   actions: {
     initProjects({ commit, state }) { // 初始化所有任務等等, 從localStorage
       const { projects, doneTasks } = state;
-      LS.save({ projects, doneTasks }); // 先帶入預設資料
       if (LS.load() === null) {
         LS.save({ projects, doneTasks }); // 先帶入預設資料
       }
@@ -162,7 +178,6 @@ export default createStore({
       commit('togglePlaying');
     },
     doneTimer({ state, commit, getters }) { // 結束計時
-      console.log('call doneTimer');
       if (!state.isBreak)commit('donePomodoro', getters.currentTask);
       if (getters.currentTask.pomodoro === 0) { // done task
         commit('doneTask', getters.currentTask);
