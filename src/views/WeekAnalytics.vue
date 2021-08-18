@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import WeekGraphItem from '../components/WeekGraphItem.vue';
 
 export default {
@@ -73,8 +73,9 @@ export default {
   },
   computed: {
     ...mapState(['projects']),
+    ...mapGetters(['todayTimestamp']),
     WeekSummary() {
-      const currentTime = new Date(Date.now());
+      const currentTime = this.todayTimestamp;
       const today = new Date(currentTime.getFullYear(),
         currentTime.getMonth(), currentTime.getDate());
       const thisWeek = [];

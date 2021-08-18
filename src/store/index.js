@@ -13,48 +13,51 @@ export default createStore({
   state: {
     projects: [{
       tasks: [{
-        name: 'Mockup', pomodoro: 2, done_pomodoro: [1628188723158, 1628188723158], done: false,
+        name: 'Mockup', pomodoro: 2, done_pomodoro: [], done: false,
       }, {
-        name: 'Wireframe', pomodoro: 4, done_pomodoro: [1628275123158, 1628275123158, 1628275123158, 1628188723158, 1628188723158], done: false,
+        name: 'Wireframe', pomodoro: 4, done_pomodoro: [], done: false,
       }, {
-        name: 'UI flow', pomodoro: 4, done_pomodoro: [1628361574803, 1628361578234], done: false,
+        name: 'UI flow', pomodoro: 4, done_pomodoro: [], done: false,
       }, {
-        name: 'Function map', pomodoro: 2, done_pomodoro: [1628275123158], done: false,
+        name: 'Function map', pomodoro: 2, done_pomodoro: [], done: false,
       }, {
-        name: 'A/B test', pomodoro: 0, done_pomodoro: [1628361523158, 1628361526123, 1628361529623], done: true, doneDate: 1628361529624,
+        name: 'A/B test', pomodoro: 1, done_pomodoro: [], done: false,
       }],
       projectName: 'DESIGN',
       color: '#fbc2eb',
     }, {
       tasks: [{
-        name: 'Function map', pomodoro: 1, done_pomodoro: [1628361583519], done: false,
+        name: 'Function map', pomodoro: 1, done_pomodoro: [], done: false,
       }, {
-        name: 'Back end', pomodoro: 5, done_pomodoro: [1628015923158, 1628015923158, 1628015923158, 1628015923158, 1628015923158], done: false,
+        name: 'Back end', pomodoro: 5, done_pomodoro: [], done: false,
       }, {
-        name: 'Online meeting', pomodoro: 0, done_pomodoro: [1628361512026, 1628361515609, 1628361518308], done: true, doneDate: 1628361518309,
+        name: 'Online meeting', pomodoro: 3, done_pomodoro: [], done: false,
       }],
       projectName: 'CODING',
       color: '#a6c1ee',
     }, {
       tasks: [{
-        name: 'Study project', pomodoro: 2, done_pomodoro: [1628188723158, 1627929523158], done: false,
+        name: 'Study project',
+        pomodoro: 2,
+        done_pomodoro: [],
+        done: false,
       }, {
-        name: 'Home work', pomodoro: 0, done_pomodoro: [1628361586066, 1628361589681], done: true, doneDate: 1628361589682,
+        name: 'Home work', pomodoro: 1, done_pomodoro: [], done: false,
       }, {
-        name: 'Review class', pomodoro: 2, done_pomodoro: [1627843123158, 1627843123158], done: false,
+        name: 'Review class', pomodoro: 2, done_pomodoro: [], done: false,
       }, {
-        name: 'Read essay', pomodoro: 4, done_pomodoro: [1628102323158, 1628102323158, 1628102323158, 1627843123158], done: false,
+        name: 'Read essay', pomodoro: 4, done_pomodoro: [], done: false,
       }, {
-        name: 'Market Research', pomodoro: 0, done_pomodoro: [1628361535939, 1628361539521, 1628361542355, 1627756723158, 1627756723158], done: true, doneDate: 1628361542356,
+        name: 'Market Research', pomodoro: 1, done_pomodoro: [], done: false,
       }],
       projectName: 'STUDY',
       color: '#abecd6',
     }],
-    doneTasks: [{ projectIndex: 1, taskIndex: 2, color: '#a6c1ee' }, { projectIndex: 0, taskIndex: 4, color: '#fbc2eb' }, { projectIndex: 2, taskIndex: 4, color: '#abecd6' }, { projectIndex: 2, taskIndex: 1, color: '#abecd6' }],
+    doneTasks: [],
     playing: false, // 是否在計時
-    work_time: [25, 0, 0],
-    break_time: [5, 0, 0],
-    time: [25, 0, 0],
+    work_time: [0, 5, 0],
+    break_time: [0, 1, 0],
+    time: [0, 5, 0],
     timestamp: 0,
     currentTaskIndex: null, // 當前進行的任務
     isBreak: false,
@@ -102,26 +105,37 @@ export default createStore({
     },
     donePomodoro(state, payload) {
       const { projects, doneTasks } = state;
-      projects[payload.projectIndex].tasks[payload.taskIndex].pomodoro -= 1;
-      projects[payload.projectIndex].tasks[payload.taskIndex].done_pomodoro.push(Date.now());
+      const mDay = (payload.mDay) ? payload.mDay : 0;
+      if (payload.mDay === undefined) {
+        projects[payload.projectIndex].tasks[payload.taskIndex].pomodoro -= 1;
+      }
+
+      projects[payload.projectIndex]
+        .tasks[payload.taskIndex]
+        .done_pomodoro
+        .push(Date.now() - 86400000 * mDay);
       LS.save({ projects, doneTasks });
     },
     doneTask(state, payload) {
       const { projects, doneTasks } = state;
       const task = projects[payload.projectIndex].tasks[payload.taskIndex];
-      task.done = true;
-      task.doneDate = Date.now();
+      const mDay = (payload.mDay) ? payload.mDay : 0;
+
       if (state.currentTaskIndex) {
         if (payload.projectIndex === state.currentTaskIndex.projectIndex
         && payload.taskIndex === state.currentTaskIndex.taskIndex) {
           state.currentTaskIndex = null;
         }
       }
-      doneTasks.push({
-        projectIndex: payload.projectIndex,
-        taskIndex: payload.taskIndex,
-        color: projects[payload.projectIndex].color,
-      });
+      if (!task.done) {
+        task.done = true;
+        task.doneDate = Date.now() - 86400000 * mDay;
+        doneTasks.push({
+          projectIndex: payload.projectIndex,
+          taskIndex: payload.taskIndex,
+          color: projects[payload.projectIndex].color,
+        });
+      }
       LS.save({ projects, doneTasks });
     },
     deleteTask(state, payload) {
@@ -163,10 +177,27 @@ export default createStore({
   actions: {
     initProjects({ commit, state }) { // 初始化所有任務等等, 從localStorage
       const { projects, doneTasks } = state;
-      if (LS.load() === null) {
-        LS.save({ projects, doneTasks }); // 先帶入預設資料
-      }
+      LS.save({ projects, doneTasks }); // 先帶入預設資料
+      // if (LS.load() === null) {
+      //   LS.save({ projects, doneTasks }); // 先帶入預設資料
+      // }
       commit('setProjects', LS.load());
+      const countPomodoro = [5, 8, 12, 18, 10, 5, 10];
+      const countProject = [0, 1, 2, 0, 1, 2, 1];
+      for (let i = 0; i <= 6; i += 1) {
+        for (let j = 0; j < countPomodoro[i]; j += 1) {
+          commit('donePomodoro', {
+            projectIndex: countProject[i],
+            taskIndex: 0,
+            mDay: i,
+          });
+        }
+        commit('doneTask', {
+          projectIndex: countProject[i],
+          taskIndex: 0,
+          mDay: i,
+        });
+      }
     },
     startTimer({ commit, dispatch }) {
       commit('updateTimestamp', performance.now());
@@ -248,6 +279,11 @@ export default createStore({
         });
       });
       return DonePomodoroCount;
+    },
+    todayTimestamp() {
+      const currentTime = new Date(Date.now());
+      return new Date(currentTime.getFullYear(),
+        currentTime.getMonth(), currentTime.getDate());
     },
   },
 });
